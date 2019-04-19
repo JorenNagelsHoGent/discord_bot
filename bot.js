@@ -30,6 +30,10 @@ client.on('messageReactionAdd', (reaction, user) => {
 				 role = reaction.message.guild.roles.find(r => r.name === "Fortnite");
 				member.addRole(role).catch(console.error);
 				break;
+			case 'MC':
+				 role = reaction.message.guild.roles.find(r => r.name === "Minecraft");
+				member.addRole(role).catch(console.error);
+				break;
 			default:
 				reaction.remove(user);
 				break;
@@ -61,6 +65,10 @@ client.on('messageReactionRemove', (reaction, user) => {
 			case 'Fortnite':
 				 role = reaction.message.guild.roles.find(r => r.name === "Fortnite");
 				member.removeRole(role).catch(console.error);
+				break;
+			case 'MC':
+				 role = reaction.message.guild.roles.find(r => r.name === "Minecraft");
+				member.addRole(role).catch(console.error);
 				break;
 			default:
 
