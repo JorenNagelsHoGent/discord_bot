@@ -68,7 +68,7 @@ client.on('messageReactionRemove', (reaction, user) => {
 				break;
 			case 'MC':
 				 role = reaction.message.guild.roles.find(r => r.name === "Minecraft");
-				member.addRole(role).catch(console.error);
+				member.removeRole(role).catch(console.error);
 				break;
 			default:
 
