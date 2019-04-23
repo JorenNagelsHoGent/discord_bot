@@ -78,6 +78,7 @@ client.on('messageReactionRemove', (reaction, user) => {
 });
 
 client.on('message', message => {
+	if( reaction.message.channel.name === 'bot-interaction') {
 		if(message.content ==='!blitz fact') {
 			fetch('http://randomuselessfact.appspot.com/today.json?language=en')
 			.then(response => response.json())
@@ -106,7 +107,7 @@ client.on('message', message => {
 		} else if(message.content === '!blitz help'){
 			message.reply(`Type " !blitz + " the command you want.\n                         Options: joke, fact, cat`);
 		}
-	
+	}
 });
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
