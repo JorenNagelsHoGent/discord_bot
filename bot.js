@@ -77,6 +77,15 @@ client.on('messageReactionRemove', (reaction, user) => {
 	}
 });
 
-
+client.on('message', message => {
+	if(message.content.startWith('!fact')) {
+		fetch('http://randomuselessfact.appspot.com/today?language=en')
+		.then(response => response.json()) 
+		.then(json => {
+			message.send(json);
+			console.log(json);
+		})
+	}
+})
 
 client.login(process.env.BOT_TOKEN);
