@@ -6,7 +6,7 @@ client.on('ready', () => {
 });
 
 client.on('messageReactionAdd', (reaction, user) => {
-	if( reaction.message.channel.name === 'games' && reaction.message.content === `@everyone! React to this message with the emoji's of the games you play. You will get acces to the servers of that game.`) {
+	if( reaction.message.channel.name === 'games') {
 		let member = reaction.message.guild.members.get(user.id);
 		let role;
 		switch (reaction.emoji.name) {
@@ -42,7 +42,7 @@ client.on('messageReactionAdd', (reaction, user) => {
 });
 
 client.on('messageReactionRemove', (reaction, user) => {
-	if( reaction.message.channel.name === 'games' && reaction.message.content === `@everyone! React to this message with the emoji's of the games you play. You will get acces to the servers of that game.`) {
+	if( reaction.message.channel.name === 'games') {
 		let member = reaction.message.guild.members.get(user.id);
 		let role;
 		switch (reaction.emoji.name) {
