@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
+const fetch = require('node-fetch');
 client.on('ready', () => {
  	console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -78,14 +78,35 @@ client.on('messageReactionRemove', (reaction, user) => {
 });
 
 client.on('message', message => {
-	if(message.content.startWith('!fact')) {
-		fetch('http://randomuselessfact.appspot.com/today?language=en')
-		.then(response => response.json()) 
-		.then(json => {
-			message.send(json);
-			console.log(json);
-		})
-	}
-})
-
+		if(message.content ==='!blitz fact') {
+			fetch('http://randomuselessfact.appspot.com/today.json?language=en')
+			.then(response => response.json())
+			.then(json => message.reply(json.text));
+		} else if(message.content === '!blitz joke'){
+			fetch('https://sv443.net/jokeapi/category/Any')
+			.then(response => {console.log(response);return response.json();})
+			.then(json => {
+				console.log(json);
+				if(json.type === 'single'){
+					message.reply(json.joke);
+				} else if(json.type === 'twopart') {
+					message.reply(json.setup);
+					sleep(5000).then(() => client.channels.get(message.channel.id).send(json.delivery))
+				}
+			});
+		} else if(message.content === '!blitz cat'){
+			//message.reply('http://placekitten.com/900/900');
+			let size = 100+Math.floor( Math.random()*900);
+			console.log(size);
+			message.channel.sendMessage({embed: {
+				color: 3447003,
+				description: '',
+				image: {url: `http://placekitten.com/${size}/${size}`}
+			}});
+		}
+	
+});
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 client.login(process.env.BOT_TOKEN);
