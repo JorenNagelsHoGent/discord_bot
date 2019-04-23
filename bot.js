@@ -5,8 +5,6 @@ client.on('ready', () => {
  	console.log(`Logged in as ${client.user.tag}!`);
 });
 
-
-
 client.on('messageReactionAdd', (reaction, user) => {
 	if( reaction.message.channel.name === 'games') {
 		let member = reaction.message.guild.members.get(user.id);
@@ -78,6 +76,7 @@ client.on('messageReactionRemove', (reaction, user) => {
 		}
 	}
 });
+
 client.on('message', message => {
 		if(message.content ==='!blitz fact') {
 			fetch('http://randomuselessfact.appspot.com/today.json?language=en')
@@ -104,6 +103,8 @@ client.on('message', message => {
 				description: '',
 				image: {url: `http://placekitten.com/${size}/${size}`}
 			}});
+		} else if(message.content === '!blitz help'){
+			message.reply(`Type " !blitz + " the command you want.\n                         Options: joke, fact, cat`);
 		}
 	
 });
