@@ -78,7 +78,7 @@ client.on('messageReactionRemove', (reaction, user) => {
 });
 
 client.on('message', message => {
-	if( reaction.message.channel.name === 'bot-interaction') {
+	if( message.channel.name === 'bot-interaction') {
 		if(message.content ==='!blitz fact') {
 			fetch('http://randomuselessfact.appspot.com/today.json?language=en')
 			.then(response => response.json())
