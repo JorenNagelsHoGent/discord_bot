@@ -5,6 +5,8 @@ client.on('ready', () => {
  	console.log(`Logged in as ${client.user.tag}!`);
 });
 
+
+
 client.on('messageReactionAdd', (reaction, user) => {
 	if( reaction.message.channel.name === 'games') {
 		let member = reaction.message.guild.members.get(user.id);
@@ -76,7 +78,6 @@ client.on('messageReactionRemove', (reaction, user) => {
 		}
 	}
 });
-
 client.on('message', message => {
 		if(message.content ==='!blitz fact') {
 			fetch('http://randomuselessfact.appspot.com/today.json?language=en')
