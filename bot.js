@@ -13,6 +13,7 @@ client.on("ready", () => {
         let msg = arr[i];
         if (msg.content === "React to this message with the emoji's of the games you play. You will get acces to the servers of that game.") {
           gameMsg = msg;
+	  console.log(msg.content);
         }
       }
     });
@@ -31,7 +32,7 @@ client.on("raw", event => {
     gameMsg &&
     event.d.message_id == gameMsg.id
   ) {
-    let member = event.d.user_id;
+    let member = gameMsg.guild.members.get(event.d.user_id);
     let role;
     switch (event.d.emoji.name) {
       case "RL":
@@ -77,7 +78,7 @@ client.on("raw", event => {
     gameMsg &&
     event.d.message_id == gameMsg.id
   ) {
-    let member = event.d.user_id;
+    let member = gameMsg.guild.members.get(event.d.user_id);
     let role;
     switch (event.d.emoji.name) {
       case "RL":
