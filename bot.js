@@ -1,82 +1,116 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fetch = require('node-fetch');
-client.on('ready', () => {
- 	console.log(`Logged in as ${client.user.tag}!`);
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+  let ch = client.channels.get("568126017655537704");
+  async function fetchMsg() {
+    ch.fetchMessages({
+      limit: 100
+    }).then(messages => {
+      let arr = messages.array();
+      for (let i = 0; i < arr.length; i++) {
+        let msg = arr[i];
+        if (msg.content === "React to this message with the emoji's of the games you play. You will get acces to the servers of that game.") {
+          gameMsg = msg;
+        }
+      }
+    });
+  }
+  fetchMsg();
 });
 
-client.on('messageReactionAdd', (reaction, user) => {
-	if( reaction.message.channel.name === 'games') {
-		let member = reaction.message.guild.members.get(user.id);
-		let role;
-		switch (reaction.emoji.name) {
-			case 'RL':
-				role= reaction.message.guild.roles.find(r => r.name === "Rocket League");
-				member.addRole(role).catch(console.error);
-				break;
-			case 'Overwatch':
-				role = reaction.message.guild.roles.find(r => r.name === "Overwatch");
-				member.addRole(role).catch(console.error);
-				break;
-			case 'R6S':
-				role = reaction.message.guild.roles.find(r => r.name === "Rainbow 6 Siege");
-				member.addRole(role).catch(console.error);
-				break;
-			case 'CSGO':
-				 role = reaction.message.guild.roles.find(r => r.name === "Counter Strike: Global Offensive");
-				member.addRole(role).catch(console.error);
-				break;
-			case 'Fortnite':
-				 role = reaction.message.guild.roles.find(r => r.name === "Fortnite");
-				member.addRole(role).catch(console.error);
-				break;
-			case 'MC':
-				 role = reaction.message.guild.roles.find(r => r.name === "Minecraft");
-				member.addRole(role).catch(console.error);
-				break;
-			default:
-				reaction.remove(user);
-				break;
-		}
-	}
+client.on("raw", event => {
+  if (
+    !(event.t == "MESSAGE_REACTION_ADD" || event.t == "MESSAGE_REACTION_REMOVE")
+  ) {
+    return;
+  }
+  if (
+    event.t == "MESSAGE_REACTION_ADD" &&
+    gameMsg &&
+    event.d.message_id == gameMsg.id
+  ) {
+    let member = event.d.user_id;
+    let role;
+    switch (event.d.emoji.name) {
+      case "RL":
+        role = gameMsg.guild.roles.find(r => r.name === "Rocket League");
+        member.addRole(role).catch(console.error);
+        break;
+      case "Overwatch":
+        role = gameMsg.guild.roles.find(r => r.name === "Overwatch");
+        member.addRole(role).catch(console.error);
+        break;
+      case "R6S":
+        role = gameMsg.guild.roles.find(r => r.name === "Rainbow 6 Siege");
+        member.addRole(role).catch(console.error);
+        break;
+      case "CSGO":
+        role = gameMsg.guild.roles.find(
+          r => r.name === "Counter Strike: Global Offensive"
+        );
+        member.addRole(role).catch(console.error);
+        break;
+      case "Fortnite":
+        role = gameMsg.guild.roles.find(r => r.name === "Fortnite");
+        member.addRole(role).catch(console.error);
+        break;
+      case "MC":
+        role = gameMsg.guild.roles.find(r => r.name === "Minecraft");
+        member.addRole(role).catch(console.error);
+        break;
+      default:
+	let ch = client.channels.get("568239171324477462");
+        ch.fetchMessage(event.d.message_id).then(message => {
+          const emojiKey = event.d.emoji.id
+            ? `${event.d.emoji.name}:${event.d.emoji.id}`
+            : event.d.emoji.name;
+          const reaction = message.reactions.get(emojiKey);
+          reaction.remove(event.d.user_id);
+        });
+        break;
+    }
+  }
+  if (
+    event.t == "MESSAGE_REACTION_REMOVE" &&
+    gameMsg &&
+    event.d.message_id == gameMsg.id
+  ) {
+    let member = event.d.user_id;
+    let role;
+    switch (event.d.emoji.name) {
+      case "RL":
+        role = gameMsg.guild.roles.find(r => r.name === "Rocket League");
+        member.removeRole(role).catch(console.error);
+        break;
+      case "Overwatch":
+        role = gameMsg.guild.roles.find(r => r.name === "Overwatch");
+        member.removeRole(role).catch(console.error);
+        break;
+      case "R6S":
+        role = gameMsg.guild.roles.find(r => r.name === "Rainbow 6 Siege");
+        member.removeRole(role).catch(console.error);
+        break;
+      case "CSGO":
+        role = gameMsg.guild.roles.find(
+          r => r.name === "Counter Strike: Global Offensive"
+        );
+        member.removeRole(role).catch(console.error);
+        break;
+      case "Fortnite":
+        role = gameMsg.guild.roles.find(r => r.name === "Fortnite");
+        member.removeRole(role).catch(console.error);
+        break;
+      case "MC":
+        role = gameMsg.guild.roles.find(r => r.name === "Minecraft");
+        member.removeRole(role).catch(console.error);
+        break;
+      default:
+        break;
+    }
+  }
 });
-
-client.on('messageReactionRemove', (reaction, user) => {
-	if( reaction.message.channel.name === 'games') {
-		let member = reaction.message.guild.members.get(user.id);
-		let role;
-		switch (reaction.emoji.name) {
-			case 'RL':
-				role= reaction.message.guild.roles.find(r => r.name === "Rocket League");
-				member.removeRole(role).catch(console.error);
-				break;
-			case 'Overwatch':
-				role = reaction.message.guild.roles.find(r => r.name === "Overwatch");
-				member.removeRole(role).catch(console.error);
-				break;
-			case 'R6S':
-				role = reaction.message.guild.roles.find(r => r.name === "Rainbow 6 Siege");
-				member.removeRole(role).catch(console.error);
-				break;
-			case 'CSGO':
-				 role = reaction.message.guild.roles.find(r => r.name === "Counter Strike: Global Offensive");
-				member.removeRole(role).catch(console.error);
-				break;
-			case 'Fortnite':
-				 role = reaction.message.guild.roles.find(r => r.name === "Fortnite");
-				member.removeRole(role).catch(console.error);
-				break;
-			case 'MC':
-				 role = reaction.message.guild.roles.find(r => r.name === "Minecraft");
-				member.removeRole(role).catch(console.error);
-				break;
-			default:
-
-				break;
-		}
-	}
-});
-
 client.on('message', message => {
 	if( message.channel.name === 'bot-interaction') {
 		if(message.content ==='!blitz fact') {
