@@ -61,7 +61,7 @@ client.on("raw", event => {
         member.addRole(role).catch(console.error);
         break;
       default:
-	let ch = client.channels.get("568239171324477462");
+	let ch = client.channels.get("568126017655537704");
         ch.fetchMessage(event.d.message_id).then(message => {
           const emojiKey = event.d.emoji.id
             ? `${event.d.emoji.name}:${event.d.emoji.id}`
